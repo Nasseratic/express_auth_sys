@@ -14,12 +14,7 @@ router.get('/user', (req, res, next) => {
             if (err) {
                 next(err);
             }
-            res.json({
-                state: true,
-                response: {
-                    users
-                }
-            });
+            res.json(users);
         });
 });
 
@@ -28,7 +23,7 @@ router.get('/user', (req, res, next) => {
 router.put('/user/:id', (req, res, next) => {
     let {id}= req.params,
         user = req.body;
-    user.img = Buffer.from(user.img, 'base64');
+    user.img = Buffer.from(user.img, 'base64').toString();
     Roll
     .findOne({
         name: user.roll
@@ -50,7 +45,7 @@ router.put('/user/:id', (req, res, next) => {
 // ------------------------ add ---------------------------------------
 router.post('/user', function (req, res, next) {
     let user = req.body;
-    user.img = Buffer.from(user.img, 'base64');
+    user.img = Buffer.from(user.img, 'base64').toString();
 
     // I think its better to use populate here instead of nested execs :"D
     Roll

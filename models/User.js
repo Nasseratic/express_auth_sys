@@ -25,7 +25,7 @@ var UserSchema = mongoose.Schema({
         required : true,
     },
     img: { 
-        type: Buffer,
+        type: String,
     },
     roll :{ 
         required : true,
@@ -64,7 +64,7 @@ module.exports.auth = (email, password , callback) => {
 	User.findOne(query).exec( (err , user) =>{
        if(err) throw err;        
         bcrypt.compare( password , user.password , function(err, isMatch) {
-            let token = jwt.sign( user._id.toHexString() , 'dotdevkey').toString();
+            let token = jwt.sign( user._id.toHexString()+';'+ new Date().toString() , 'dotdevkey').toString();
             user.token = token;
             user.save().then(()=>{
                 callback(null, isMatch , token);
