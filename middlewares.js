@@ -33,12 +33,15 @@ const CROS = (req, res, next) => {
 
 const isAuthenticated = (req, res, next) => {
 	token = req.header('x-token');
-	if(!token){ res.status(400).send('unauthenticated'); }
-	User.authCheck( token , (user) =>{
-		if(!user){ res.status(400).send('unauthenticated'); }
-		next();
-	});
-
+	if(!token){ 
+		res.status(400).send('unauthenticated'); 
+	}else{
+		User.authCheck( token , (user) =>{
+			if(!user){ res.status(400).send('unauthenticated'); }
+			next();
+		});	
+	}
+	
 }
 
 
