@@ -17,10 +17,11 @@ const removePowered = (req, res, next) => {
 
 // handel server errors  
 const handelErrors = (err, req, res, next) => {
-		res.status(err.status || 500);
-		res.send({
-			message: err.message		
-		});
+		if(err.message){
+			res.end(err.message);
+		}else{
+			res.end("UNKOWNEN ERROR");
+		}
 };
 
 // CORS

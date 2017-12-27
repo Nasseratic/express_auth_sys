@@ -75,10 +75,5 @@ app.use('/', middlewares.isAuthenticated , user)
 
 
 app.use( '/' , middlewares.handelErrors);
-// catch 404. 404 should be consider as a default behavior, not a system error.
-app.use(function(req, res, next) {
-    res.status(404);
-    res.send('Not Found');
-});
 
 app.listen(3000);

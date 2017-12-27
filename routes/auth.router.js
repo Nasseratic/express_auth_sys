@@ -23,11 +23,20 @@ router.post('/login', (req, res, next) => {
 
 });
 
-// ----------------- LOGIN ---------------------
-router.post('/logout', (req, res, next) => {
+// ----------------- LOGOUT ---------------------
+router.get('/logout', (req, res, next) => {
     let token = req.header('x-token');
     if( token ){
-        User.findOne({token})
+        User.findOne({token}).exec((err,user) =>{
+            if(user){
+                user.token = " ";
+                user.save().then( () =>{
+                    res.send("you are out");
+                });
+            }else{
+                next();
+            }
+        });
     }else{
         next();
     }

@@ -65,6 +65,7 @@ module.exports.auth = (email, password , callback) => {
        if(err) throw err;        
         bcrypt.compare( password , user.password , function(err, isMatch) {
             let token = jwt.sign( user._id.toHexString() , 'dotdevkey').toString();
+            user.token = token;
             user.save().then(()=>{
                 callback(null, isMatch , token);
             });
