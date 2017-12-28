@@ -54,7 +54,9 @@ module.exports.updateUser = (id, user, callback) => {
 	        user.password = hash;
 	        User
             .findByIdAndUpdate( id , user)
-            .exec(callback);
+            .exec( (err,updated)=>{
+                callback(err);
+            });
 	    });
 	});
 }

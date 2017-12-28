@@ -33,11 +33,12 @@ router.put('/user/:id', (req, res, next) => {
             next(err);
         }
         user.roll = roll._id;
-        User.updateUser( id , user , (err, updated) => {
+        User.updateUser( id , user , (err) => {
             if (err) {
                 next(err);
+            }else{
+                res.json("updated");
             }
-            res.json({state: true, response: updated });
         });
     });
 });
@@ -53,16 +54,20 @@ router.post('/user', function (req, res, next) {
             name: user.roll
         })
         .exec((err, roll) => {
+           
             if (err) {
                 next(err);
+            }else{
+                user.roll = roll._id;
+                User.createUser( new User(user) , (err, saved) => {
+                    if (err) {
+                        next(err);
+                    }else{
+                        res.json( saved );
+                    }
+                });
             }
-            user.roll = roll._id;
-            User.createUser( new User(user) , (err, saved) => {
-                if (err) {
-                    next(err);
-                }
-                res.json({ state: true ,response: saved});
-            });
+            
         });
 });
 
@@ -78,11 +83,9 @@ router.delete('/user/:id', (req, res, next) => {
         .exec((err, user) => {
             if (err) {
                 next(err);
+            }else{
+                res.send("USER DELETED")
             }
-            res.json({
-                state: true,
-                response: "USER DELETED"
-            })
         });
 });
 

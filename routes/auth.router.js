@@ -10,14 +10,17 @@ router.post('/login', (req, res, next) => {
     {password} = req.body;
     
     User.auth( email , password ,  (err, isMatch , token) => {
-        if (err) throw err;
-        if (isMatch) {
-            res.header('x-token',token).send("logged in");
-        } else {
-            return next({
-                message: 'Invalid email or password',
-                status: 400
-            });
+        if(err){
+            next(err);
+        }else{
+            if (isMatch) {
+                res.header('x-token',token).send("logged in");
+            } else {
+                return next({
+                    message: 'Invalid email or password',
+                    status: 400
+                });
+            }
         }
     });
 
@@ -26,20 +29,22 @@ router.post('/login', (req, res, next) => {
 // ----------------- LOGOUT ---------------------
 router.get('/logout', (req, res, next) => {
     let token = req.header('x-token');
+
     if( token ){
         User.findOne({token}).exec((err,user) =>{
-            if(user){
+            if(err || !user){
+                next();
+            }else{
                 user.token = " ";
                 user.save().then( () =>{
                     res.send("you are out");
                 });
-            }else{
-                next();
             }
         });
     }else{
         next();
     }
+
 });
 
 

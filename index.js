@@ -76,4 +76,8 @@ app.use('/', middlewares.isAuthenticated , user)
 
 app.use( '/' , middlewares.handelErrors);
 
+app.use( (ewq, res)=>{
+    res.end("this route not found");
+});
+
 app.listen(3000);
