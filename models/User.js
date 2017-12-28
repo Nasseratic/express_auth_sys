@@ -39,6 +39,7 @@ var UserSchema = mongoose.Schema({
 
 var User = module.exports = mongoose.model('User', UserSchema);
 
+// create a user + hashing the password
 module.exports.createUser = (newUser, callback) => {
 	bcrypt.genSalt(10, function(err, salt) {
 	    bcrypt.hash( newUser.password   , salt, function(err, hash) {
@@ -48,6 +49,7 @@ module.exports.createUser = (newUser, callback) => {
 	});
 }
 
+// update user + hashing the password
 module.exports.updateUser = (id, user, callback) => {
 	bcrypt.genSalt(10, function(err, salt) {
 	    bcrypt.hash(  user.password  , salt, function(err, hash) {
@@ -61,6 +63,7 @@ module.exports.updateUser = (id, user, callback) => {
 	});
 }
 
+// login auth 
 module.exports.auth = (email, password , callback) => {
 	var query = {email: email};
 	User.findOne(query).exec( (err , user) =>{
@@ -75,6 +78,7 @@ module.exports.auth = (email, password , callback) => {
     });
 }
 
+// check token
 module.exports.authCheck = (token , callback ) => {
 	User.findOne({token}).exec( (err , user) =>{
        if(err){

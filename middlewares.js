@@ -9,9 +9,10 @@ const jwt = require('jsonwebtoken');
 
 const bodyParse = bodyParser.json();
 const urlencodedParser = bodyParser.urlencoded({extended : false});
-// remove Powered by 
+
+// remove Powered by express
 const removePowered = (req, res, next) => {
-    res.removeHeader("X-Powered-By");
+	res.header("X-Powered-By","DotDev:Mohamed");
     next();
 };
 

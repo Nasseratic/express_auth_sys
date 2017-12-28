@@ -89,13 +89,4 @@ router.delete('/user/:id', (req, res, next) => {
         });
 });
 
-
-
-
-router.get('/logout', function (req, res) {
-    req.logout();
-    res.send('You are logged out');
-});
-
-
 module.exports = router
