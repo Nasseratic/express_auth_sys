@@ -27,10 +27,10 @@ var UserSchema = mongoose.Schema({
     img: { 
         type: String,
     },
-    roll :{ 
+    role :{ 
         required : true,
         type: Schema.Types.ObjectId,
-         ref: 'Roll' 
+         ref: 'role' 
     },
     token:{
         type: String

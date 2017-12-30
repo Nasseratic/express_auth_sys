@@ -3,7 +3,7 @@ const router = express.Router();
 // const passport = require('passport')
 // const LocalStrategy = require('passport-local').Strategy;
 const User = require('../models/User');
-const Roll = require('../models/Roll');
+const role = require('../models/Role');
 
 
 // -------------------------------------------- get ----------------------------------
@@ -24,15 +24,15 @@ router.put('/user/:id', (req, res, next) => {
     let {id}= req.params,
         user = req.body;
     user.img = Buffer.from(user.img, 'base64').toString();
-    Roll
+    role
     .findOne({
-        name: user.roll
+        name: user.role
     })
-    .exec((err, roll) => {
+    .exec((err, role) => {
         if (err) {
             next(err);
         }
-        user.roll = roll._id;
+        user.role = role._id;
         User.updateUser( id , user , (err) => {
             if (err) {
                 next(err);
@@ -49,16 +49,16 @@ router.post('/user', function (req, res, next) {
     user.img = Buffer.from(user.img, 'base64').toString();
 
     // I think its better to use populate here instead of nested execs :"D
-    Roll
+    role
         .findOne({
-            name: user.roll
+            name: user.role
         })
-        .exec((err, roll) => {
+        .exec((err, role) => {
            
             if (err) {
                 next(err);
             }else{
-                user.roll = roll._id;
+                user.role = role._id;
                 User.createUser( new User(user) , (err, saved) => {
                     if (err) {
                         next(err);
