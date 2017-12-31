@@ -14,7 +14,10 @@ router.post('/login', (req, res, next) => {
             next(err);
         }else{
             if (isMatch) {
-                res.header('x-token',token).send("logged in");
+                res.header('x-token',token).json({
+                    status: 'success',
+                    message: 'logged in'
+                });
             } else {
                 return next({
                     message: 'Invalid email or password',
@@ -28,23 +31,16 @@ router.post('/login', (req, res, next) => {
 
 // ----------------- LOGOUT ---------------------
 router.get('/logout', (req, res, next) => {
+    // for now logout is useless ..
     let token = req.header('x-token');
-
     if( token ){
-        User.findOne({token}).exec((err,user) =>{
-            if(err || !user){
-                next();
-            }else{
-                user.token = " ";
-                user.save().then( () =>{
-                    res.send("you are out");
-                });
-            }
+        res.json({
+            status:'success',
+            message:'logged out'
         });
     }else{
         next();
     }
-
 });
 
 

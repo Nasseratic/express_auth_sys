@@ -59,14 +59,15 @@ const isAuthenticated = (req, res, next) => {
 			status: 'fail'
 		});
 	} else {
-		User.authCheck(token, (user) => {
-			if (!user) {
+		User.authCheck(token, (userid) => {
+			if (!userid) {
 				res.status(403).json({
 					message: "unauthenticated",
 					status: 'fail'
 				});
+			}else{
+				next();
 			}
-			next();
 		});
 	}
 
