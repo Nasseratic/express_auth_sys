@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var bcrypt = require('bcrypt'),
     Schema = mongoose.Schema;
 const jwt = require('jsonwebtoken');
-
+const keys = require('../config/keys');
 
 // User Schema
 var UserSchema = mongoose.Schema({
@@ -77,7 +77,7 @@ module.exports.auth = (email, password, callback) => {
             if(err){
                 callback(err, false , '');                
             }else{
-                jwt.sign( user._id + ';' + new Date().toString(), 'dotdevkey' , (err , encoded) =>{
+                jwt.sign( user._id + ';' + new Date().toString(), keys.jwt , (err , encoded) =>{
                     if(err){
                         callback(err, false , '');                
                     }else{
@@ -91,7 +91,7 @@ module.exports.auth = (email, password, callback) => {
 
 // check token
 module.exports.authCheck = (token, callback) => {
-    jwt.verify(token, 'dotdevkey', (err, decoded) => {
+    jwt.verify(token, keys.jwt , (err, decoded) => {
         let userId = decoded.split(';')[0];
         callback(userId);
     });
