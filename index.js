@@ -18,6 +18,7 @@ mongoose.connect('mongodb://root:root@ds131237.mlab.com:31237/dotdev_task', {
 
 var app = express();
 
+app.use( express.static('./uploads') );
 app.use( '/' , middlewares.CROS);
 app.use( '/' , middlewares.bodyParse);
 app.use( '/' , middlewares.urlencodedParser);
@@ -68,16 +69,15 @@ app.use( '/' , middlewares.removePowered);
 // -----------------------------AUTH ROUTES --------------------
 app.use('/', auth);
 
-
 // ---------------------------- USER ROUTES --------------------
-app.use('/', middlewares.isAuthenticated , user)
+app.use('/user', middlewares.isAuthenticated , user)
 
 
+// --- ---------- ------------ --------------- -------- // 
+app.use( '/' , middlewares.handleErrors);
+app.use( '/' , middlewares.handle404);
+app.use( '/' , middlewares.handle500);
+// --- ---------- ------------ --------------- -------- // 
 
-app.use( '/' , middlewares.handelErrors);
-
-app.use( (ewq, res)=>{
-    res.end("this route not found");
-});
 
 app.listen(3000);
