@@ -55,6 +55,7 @@
     "ecdsa-sig-formatter": "^1.0.9",
     "ee-first": "^1.1.1",
     "es6-promise": "^4.2.2",
+    "express": "^4.16.2",
     "extend": "^3.0.1",
     "extsprintf": "^1.4.0",
     "fast-deep-equal": "^1.0.0",
